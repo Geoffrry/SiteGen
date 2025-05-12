@@ -21,9 +21,11 @@ def generate(request: Request, business_name: str = Form(...), business_type: st
     uid = str(uuid.uuid4())
     output_zip = f"static/generated-sites/{uid}.zip"
     generate_website(business_name, business_type, output_zip)
+    content = generate_website(business_name, business_type, output_zip)
     return templates.TemplateResponse("index.html", {
         "request": request,
-        "zip_path": f"/{output_zip}"
+        "zip_path": f"/{output_zip}",
+        "generated_html": content
     })
 
 @app.get("/download/{file_name}")

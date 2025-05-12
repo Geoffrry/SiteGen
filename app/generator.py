@@ -3,12 +3,26 @@ import os
 import zipfile
 
 def prompt_llm(business_name, business_type):
-    prompt = (
-        f"Generate a complete and well-structured responsive website for a {business_type} named '{business_name}'. "
-        "The site must include a hero section, services, about section, and contact form. "
-        "Use TailwindCSS for styling and write only clean HTML code in one file (index.html). "
-        "Ensure semantic HTML, modern UX practices, and accessible layout. Do not include explanations—only raw HTML code."
-    )
+    prompt = f"""
+    You are a frontend web developer.
+
+    Generate a complete and well-structured one-page responsive website for a {business_type} called "{business_name}" using only pure HTML with TailwindCSS. 
+
+    The site should include:
+    - A hero section with heading and CTA
+    - Services or features section
+    - About us section
+    - Contact form
+
+    Requirements:
+    - Use semantic HTML5
+    - Use only TailwindCSS utility classes (no inline styles or other frameworks)
+    - Output only raw HTML without triple backticks, markdown, or explanation.
+    - Do not mention that you are an AI or that you're limited.
+    - Your response should be fully usable as `index.html`.
+
+    Respond with HTML only.
+    """
     result = subprocess.run(
         ["ollama", "run", "deepseek-coder", prompt],
         capture_output=True,
@@ -26,3 +40,5 @@ def generate_website(name, btype, output_path):
 
     with zipfile.ZipFile(output_path, "w") as zipf:
         zipf.write(f"{folder}/index.html", arcname="index.html")
+    
+    return content
