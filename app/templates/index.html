@@ -10,7 +10,12 @@
   >
     <div class="bg-white p-6 rounded shadow-md w-full max-w-md">
       <h1 class="text-xl font-semibold mb-4">Generate Business Website</h1>
-      <form action="/generate" method="post" class="flex flex-col gap-4">
+      <form
+        id="generate-form"
+        action="/generate"
+        method="post"
+        class="flex flex-col gap-4"
+      >
         <input
           type="text"
           name="business_name"
@@ -29,6 +34,9 @@
           Generate
         </button>
       </form>
+      <div id="loading" class="hidden mt-4 text-blue-600">
+        ⏳ Generating your website, please wait...
+      </div>
       {% if zip_path %}
       <div class="mt-4">
         <a href="{{ zip_path }}" class="text-green-600 underline"
@@ -37,5 +45,12 @@
       </div>
       {% endif %}
     </div>
+    <script>
+      const form = document.getElementById("generate-form");
+      const loading = document.getElementById("loading");
+      form.addEventListener("submit", () => {
+        loading.classList.remove("hidden");
+      });
+    </script>
   </body>
 </html>
